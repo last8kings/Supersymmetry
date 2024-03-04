@@ -2,7 +2,7 @@ import gregtech.api.GregTechAPI;
 import gregtech.api.unification.material.Material;
 
 import static gregtech.api.unification.material.Materials.*;
-import static globals.Globals.*
+import globals.Globals
 
 ELECTROLYZER = recipemap('electrolyzer')
 ELECTROLYTIC_CELL = recipemap('electrolytic_cell')
@@ -239,7 +239,7 @@ BATCH_REACTOR.recipeBuilder()
 //SILVER CHLORIDE
 BATCH_REACTOR.recipeBuilder()
     .inputs(ore('dustSilverChloride') * 4)
-    .inputs(ore('dustZinc'))
+    .inputs(ore('dustAnyPurityZinc'))
     .fluidInputs(fluid('distilled_water') * 1000)
     .notConsumable(fluid('sulfuric_acid') * 10)
     .outputs(metaitem('dustSilver') * 2)
@@ -257,18 +257,10 @@ DISTILLERY.recipeBuilder()
     .buildAndRegister()
 
 //SILVER NITRATE
-MIXER.recipeBuilder()
-    .fluidInputs(fluid('water') * 1000)
-    .fluidInputs(fluid('silver_nitrate_solution') * 1000)
-    .fluidOutputs(fluid('diluted_silver_nitrate_solution') * 1000)
-    .duration(20)
-    .EUt(Globals.voltAmps[1])
-    .buildAndRegister()
-
 ELECTROLYZER.recipeBuilder()
     .notConsumable(metaitem('stickSilver'))
     .notConsumable(metaitem('graphite_electrode'))
-    .fluidInputs(fluid('diluted_silver_nitrate_solution') * 2000)
+    .fluidInputs(fluid('silver_nitrate_solution') * 2000)
     .outputs(metaitem('dustSilver') * 2)
     .fluidOutputs(fluid('nitric_acid') * 2000)
     .fluidOutputs(fluid('oxygen') * 1000)
@@ -281,7 +273,7 @@ BATCH_REACTOR.recipeBuilder()
     .inputs(ore('dustSilver') * 3) 
     .fluidInputs(fluid('nitric_acid') * 4000)
     .fluidInputs(fluid('distilled_water') * 1000)
-    .fluidOutputs(fluid('silver_nitrate_solution') * 2700)
+    .fluidOutputs(fluid('silver_nitrate_solution') * 2750)
     .fluidOutputs(fluid('nitric_oxide') * 1000)
     .duration(360)
     .EUt(Globals.voltAmps[2])

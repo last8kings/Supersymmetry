@@ -59,6 +59,7 @@ def ingotMap = [
         'EnrichedNaquadahTriniumEuropiumDuranide':9900,
         'RutheniumTriniumAmericiumNeutronate':10800,
         'TungstenSteel':3000,
+        'RtmAlloy': 3200,
         'NaquadahAlloy':7200,
         'RhodiumPlatedPalladium':4500,
         'Hssg':4200,
@@ -163,3 +164,16 @@ for (entry in fluidMap) {
     }
 }
 
+// Air cooling
+recipemap('radiator').recipeBuilder()
+            .fluidInputs(fluid('hot_air') * 1000)
+            .fluidOutputs(liquid('air') * 1000)
+            .duration(100)
+            .buildAndRegister();
+
+recipemap('cooling_unit').recipeBuilder()
+            .fluidInputs(fluid('hot_air') * 1000)
+            .fluidOutputs(liquid('air') * 1000)
+            .duration(50)
+            .EUt(480)
+            .buildAndRegister();

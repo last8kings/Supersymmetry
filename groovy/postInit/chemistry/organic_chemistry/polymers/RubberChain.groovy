@@ -1,4 +1,4 @@
-import static globals.Globals.*
+import globals.Globals
 
 import gregtech.api.recipes.ModHandler;
 import gregtech.api.unification.material.Materials;
@@ -9,6 +9,7 @@ POLYMERIZATION_TANK = recipemap('polymerization_tank')
 MIXER = recipemap('mixer')
 SIFTER = recipemap('sifter')
 DRYER = recipemap('dryer')
+EXTRACTOR = recipemap('extractor')
 
 //REMOVALS
 // Raw Rubber Pulp * 2
@@ -124,7 +125,7 @@ def CoagulationRecipe(amount, duration, circ){
 }
 
 def rubbers = [
-    new Rubber('dustLatex', 'Rubber', 16, 10 * 20, 4, false),
+    new Rubber('dustLatex', 'Rubber', 1, 10 * 20, 1, false),
     new Rubber('latex', 'Rubber', 32, 20 * 20, 1, true),
     new Rubber('dustPolyisoprene', 'Rubber', 8, 225, 8, false),
     new Rubber('dustRawStyreneIsopreneRubber', 'StyreneIsopreneRubber', 4, 30 * 20, 4, false),
@@ -161,7 +162,7 @@ for (rubber in rubbers) {
             for (catalyser in catalysers) {
                     if(rubber.isFluid)  {
                         VULCANIZING_RECIPES.recipeBuilder()
-                        .fluidInputs(fluid(rubber.name) * rubber.amount_required * 1000)
+                        .fluidInputs(fluid(rubber.name) * rubber.amount_required * 4000)
                         .inputs(ore(sulfurSource.name) * sulfurSource.amount_required)
                         .notConsumable(ore(catalyser.name))
                         .notConsumable(metaitem('shape.extruder.' + shape.name))
@@ -184,7 +185,7 @@ for (rubber in rubbers) {
                 }
                 if(rubber.isFluid)  {
                     VULCANIZING_RECIPES.recipeBuilder()
-                    .fluidInputs(fluid(rubber.name) * rubber.amount_required * 1000)
+                    .fluidInputs(fluid(rubber.name) * rubber.amount_required * 4000)
                     .inputs(ore(sulfurSource.name) * sulfurSource.amount_required)
                     .notConsumable(metaitem('shape.extruder.' + shape.name))
                     .circuitMeta(2)
@@ -217,6 +218,16 @@ for (coagulant in coagulants) {
     CoagulationRecipe(coagulant, 4, 1000, 4)
     CoagulationRecipe(coagulant, 16, 2500, 5)
 }
+
+// Liquid Latex * 144
+mods.gregtech.extractor.removeByInput(30, [metaitem('dustLatex')], null)
+
+EXTRACTOR.recipeBuilder()
+.inputs(ore('dustLatex'))
+.fluidOutputs(fluid('latex') * 1000)
+.duration(98)
+.EUt(30)
+.buildAndRegister()
 
 // Polyisoprene
 POLYMERIZATION_TANK.recipeBuilder()

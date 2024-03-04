@@ -1,4 +1,4 @@
-import static globals.Globals.*
+import globals.Globals
 
 BR = recipemap('batch_reactor')
 CSTR = recipemap('continuous_stirred_tank_reactor')
@@ -27,18 +27,18 @@ SIFTER.recipeBuilder()
     .buildAndRegister()
 
 BR.recipeBuilder()
-    .inputs(ore('dustAlluvialPgm') * 4)
-    .fluidInputs(fluid('aqua_regia') * 24000)
-    .fluidInputs(fluid('nitric_acid') * 2000)
-    .fluidOutputs(fluid('alluvial_pgm_solution') * 10000)
-    .fluidOutputs(fluid('hydrogen') * 2000)
-    .fluidOutputs(fluid('nitrogen_dioxide') * 10000)
-    .duration(240)
+    .inputs(ore('dustAlluvialPgm') * 2)
+    .fluidInputs(fluid('aqua_regia') * 12000)
+    .fluidInputs(fluid('nitric_acid') * 1000)
+    .fluidOutputs(fluid('alluvial_pgm_solution') * 5000)
+    .fluidOutputs(fluid('hydrogen') * 1000)
+    .fluidOutputs(fluid('nitrogen_dioxide') * 5000)
+    .duration(120)
     .EUt(Globals.voltAmps[2])
     .buildAndRegister()
 
 BR.recipeBuilder()
-    .inputs(ore('dustZinc'))
+    .inputs(ore('dustAnyPurityZinc'))
     .fluidInputs(fluid('alluvial_pgm_solution') * 10000)
     .outputs(metaitem('dustIronIiChloride') * 3)
     .fluidOutputs(fluid('cemented_alluvial_pgm_solution') * 10000)

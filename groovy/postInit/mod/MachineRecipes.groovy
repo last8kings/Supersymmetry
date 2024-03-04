@@ -1,4 +1,4 @@
-import static globals.Globals.*
+import globals.Globals
 import static gregtech.api.unification.material.Materials.*;
 import gregtech.api.unification.material.MarkerMaterials;
 
@@ -536,7 +536,7 @@ crafting.addShaped("steel_turbine_rotor", item('susy:turbine_rotor'), [
 
 crafting.addShaped("steel_turbine_controller", metaitem('basic_steam_turbine'), [
 		[ore('plateSteel'),            metaitem('cableGtSingleTin'),       ore('plateSteel')],
-		[ore('circuitLv'),             item('gregtech:machine_casing', 1), ore('circuitLv')],
+		[ore('circuitLv'),             metaitem('hull.lv'), ore('circuitLv')],
 		[metaitem('cableGtSingleTin'), ore('circuitLv'),                   metaitem('cableGtSingleTin')]
 ])
 
@@ -660,12 +660,6 @@ crafting.addShaped("gregtech:railroad_engineering_station", metaitem('railroad_e
 		[robotArms[1], null, robotArms[1]],
 		[conveyors[1], hulls[1], conveyors[1]],
 		[metaitem('plateSteel'), circuits[1], metaitem('plateSteel')]
-]);
-
-crafting.addShaped("gregtech:condenser", metaitem('condenser'), [
-		[null, metaitem('electric.pump.lv'), null],
-		[metaitem('frameSteel'), item('gregtech:boiler_casing', 1), metaitem('frameSteel')],
-		[null, metaitem('electric.pump.lv'), null]
 ]);
 
 crafting.addShaped("gregtech:condenser", metaitem('condenser'), [
@@ -882,6 +876,26 @@ for (i = 1; i <= 8; i++) {
 	])
 }
 
+// Polishing Machine
+
+for (i = 1; i <= 8; i++) {
+	crafting.addShaped("gregtech:polishing_machine." + Globals.voltageTiers[i], metaitem('polishing_machine.'  + Globals.voltageTiers[i]), [
+			[robotArms[i], circuits[i], pumps[i]],
+			[tieredGlass[i], hulls[i], tieredGlass[i]],
+			[tieredCables[i], motors[i], tieredCables[i]]
+	])
+}
+
+// Textile Spinner
+
+for (i = 1; i <= 8; i++) {
+	crafting.addShaped("gregtech:textile_spinner." + Globals.voltageTiers[i], metaitem('textile_spinner.'  + Globals.voltageTiers[i]), [
+			[circuits[i], tieredCables[i], circuits[i]],
+			[pumps[i], hulls[i], motors[i]],
+			[tieredCables[i], motors[i], motors[i]]
+	])
+}
+
 // Bath Condenser
 
 crafting.addShaped("gregtech:bath_condenser", metaitem('bath_condenser'), [
@@ -1017,7 +1031,7 @@ recipemap('assembler').recipeBuilder()
 // AIR DIST. CONTROLLERS
 
 recipemap('assembler').recipeBuilder()
-		.circuitMeta(1)
+		.circuitMeta(2)
 		.inputs(metaitem('hull.Hv'))
 		.inputs(metaitem('frameAluminium') * 3)
 		.inputs(ore('circuitHv') * 4)
@@ -1030,7 +1044,7 @@ recipemap('assembler').recipeBuilder()
 		.buildAndRegister()
 
 recipemap('assembler').recipeBuilder()
-		.circuitMeta(2)
+		.circuitMeta(3)
 		.inputs(metaitem('hull.Hv'))
 		.inputs(metaitem('frameAluminium') * 3)
 		.inputs(ore('circuitHv') * 2)
@@ -1044,7 +1058,7 @@ recipemap('assembler').recipeBuilder()
 		.buildAndRegister()
 
 recipemap('assembler').recipeBuilder()
-		.circuitMeta(3)
+		.circuitMeta(4)
 		.inputs(metaitem('hull.Hv'))
 		.inputs(metaitem('frameAluminium') * 12)
 		.inputs(ore('circuitHv') * 6)
@@ -1052,6 +1066,19 @@ recipemap('assembler').recipeBuilder()
 		.inputs(ore('plateAluminium') * 4)
 		.inputs(metaitem('mineral_wool') * 64)
 		.outputs(metaitem('high_pressure_cryogenic_distillation_plant'))
+		.EUt(30)
+		.duration(600)
+		.buildAndRegister()
+
+recipemap('assembler').recipeBuilder()
+		.circuitMeta(3)
+		.inputs(metaitem('hull.Hv'))
+		.inputs(metaitem('frameStainlessSteel'))
+		.inputs(ore('platePolytetrafluoroethylene') * 4)
+		.inputs(ore('circuitHv') * 2)
+		.inputs(metaitem('electric.motor.hv'))
+		.inputs(metaitem('electric.pump.hv') * 4)
+		.outputs(metaitem('blender'))
 		.EUt(30)
 		.duration(600)
 		.buildAndRegister()

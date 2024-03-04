@@ -1,10 +1,9 @@
-import static globals.Globals.*
+import globals.Globals
 
 import gregtech.api.recipes.ModHandler;
 import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.ore.OrePrefix;
 import gregtech.api.unification.stack.UnificationEntry;
-
 MIXER = recipemap('mixer')
 FLUID_HEATER = recipemap('fluid_heater')
 CENTRIFUGE = recipemap('centrifuge')
@@ -20,8 +19,10 @@ MACERATOR = recipemap('macerator')
 
 // Fertilizer * 4
 mods.gregtech.mixer.removeByInput(30, [item('minecraft:dirt'), metaitem('dustWood') * 2, item('minecraft:sand') * 4], [fluid('water') * 1000])
+mods.gregtech.blender.removeByInput(30, [item('minecraft:dirt'), metaitem('dustWood') * 2, item('minecraft:sand') * 4], [fluid('water') * 1000])
 // Fertilizer Solution * 5000
 mods.gregtech.mixer.removeByInput(16, [item('minecraft:dye', 15)], [fluid('water') * 5000])
+mods.gregtech.blender.removeByInput(16, [item('minecraft:dye', 15)], [fluid('water') * 5000])
 // Greenhouse Glass * 1
 mods.gregtech.assembler.removeByInput(24, [metaitem('gregtechfoodoption:cupric_hydrogen_arsenite_dust'), item('gregtech:transparent_casing')], null)
 
@@ -58,8 +59,8 @@ MACERATOR.recipeBuilder()
         .inputs(ore('threadCotton') * 2)
         .outputs(metaitem('dustCellulose'))
         .duration(100)
-	.EUt(Globals.voltAmps[1])
-	.buildAndRegister()
+        .EUt(Globals.voltAmps[1])
+        .buildAndRegister()
 
 //GREENHOUSE
 
@@ -73,76 +74,46 @@ CHEMICAL_BATH.recipeBuilder()
 
 //FERTILIZER CHAIN
 
-def nitrogenNutrients = [
-        metaitem('dustAmmoniumChloride'),
-        metaitem('dustAmmoniumNitrate'),
-        metaitem('dustAmmoniumSulfate'),
-        metaitem('dustUrea')
-];
+MIXER.recipeBuilder()
+        .inputs(ore('nutrientNitrogen'))
+        .inputs(ore('nutrientPotassium'))
+        .inputs(ore('nutrientPhosphorous'))
+        .outputs(metaitem('fertilizer') * 5)
+        .EUt(30)
+        .duration(100)
+        .buildAndRegister();
 
-def potassiumNutrients = [
-        metaitem('dustAsh'),
-        metaitem('dustCharcoal'),
-        metaitem('dustRockSalt'),
-        metaitem('dustPotassiumCarbonate'),
-        metaitem('dustPotash')
-];
+MIXER.recipeBuilder()
+        .inputs(ore('dustAmmoniumDihydrogenPhosphate') * 2)
+        .inputs(ore('nutrientPotassium'))
+        .outputs(metaitem('fertilizer') * 5)
+        .EUt(30)
+        .duration(100)
+        .buildAndRegister()
 
-def phosphorusNutrients = [
-        metaitem('dustChlorapatite'),
-        metaitem('dustHydroxyapatite'),
-        metaitem('dustFluorapatite'),
-        metaitem('dustTricalciumPhosphate'),
-        metaitem('dustPhosphorus'),
-        metaitem('dustPhosphorite'),
-        item('minecraft:dye', 15)
-];
+MIXER.recipeBuilder()
+        .inputs(ore('dustSaltpeter') * 2)
+        .inputs(ore('nutrientPhosphorous'))
+        .outputs(metaitem('fertilizer') * 5)
+        .EUt(30)
+        .duration(100)
+        .buildAndRegister()
 
-for (p in phosphorusNutrients) {
-    for (n in nitrogenNutrients) {
-        for (k in potassiumNutrients) {
-            MIXER.recipeBuilder()
-                    .inputs(p)
-                    .inputs(n)
-                    .inputs(k)
-                    .outputs(metaitem('fertilizer') * 5)
-                    .EUt(30)
-                    .duration(100)
-                    .buildAndRegister()
-        }
-    }
-    MIXER.recipeBuilder()
-            .inputs(ore('dustAmmoniumDihydrogenPhosphate') * 2)
-            .inputs(p)
-            .outputs(metaitem('fertilizer') * 5)
-            .EUt(30)
-            .duration(100)
-            .buildAndRegister()
+MIXER.recipeBuilder()
+        .inputs(metaitem('bio_chaff') * 2)
+        .inputs(ore('nutrientPhosphorous'))
+        .outputs(metaitem('fertilizer') * 5)
+        .EUt(30)
+        .duration(100)
+        .buildAndRegister()
 
-    MIXER.recipeBuilder()
-            .inputs(ore('dustSaltpeter') * 2)
-            .inputs(p)
-            .outputs(metaitem('fertilizer') * 5)
-            .EUt(30)
-            .duration(100)
-            .buildAndRegister()
-
-    MIXER.recipeBuilder()
-            .inputs(metaitem('bio_chaff') * 2)
-            .inputs(p)
-            .outputs(metaitem('fertilizer') * 5)
-            .EUt(30)
-            .duration(100)
-            .buildAndRegister()
-
-    MIXER.recipeBuilder()
-            .fluidInputs(fluid('fermented_biomass') * 1000)
-            .inputs(p)
-            .outputs(metaitem('fertilizer') * 5)
-            .EUt(30)
-            .duration(100)
-            .buildAndRegister()
-}
+MIXER.recipeBuilder()
+        .fluidInputs(fluid('fermented_biomass') * 1000)
+        .inputs(ore('nutrientPhosphorous'))
+        .outputs(metaitem('fertilizer') * 5)
+        .EUt(30)
+        .duration(100)
+        .buildAndRegister()
 
 MIXER.recipeBuilder()
         .inputs(metaitem('fertilizer') * 2)
@@ -151,6 +122,8 @@ MIXER.recipeBuilder()
         .EUt(30)
         .duration(60)
         .buildAndRegister()
+
+
 
 COMPRESSOR.recipeBuilder()
         .inputs(ore('treeLeaves') * 16)
@@ -289,7 +262,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('minecraft:sapling') * 2)
         .outputs(item('minecraft:apple') * 1)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -301,7 +274,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('minecraft:leaves', 1) * 14)
         .outputs(item('minecraft:sapling', 1) * 2)
         .EUt(30)
-        .duration(2400)
+        .duration(480)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -313,7 +286,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('minecraft:leaves', 2) * 12)
         .outputs(item('minecraft:sapling', 2) * 2)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -325,7 +298,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('minecraft:leaves', 3) * 40)
         .outputs(item('minecraft:sapling', 3) * 5)
         .EUt(30)
-        .duration(7200)
+        .duration(1440)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -337,7 +310,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('minecraft:leaves2') * 12)
         .outputs(item('minecraft:sapling', 4) * 2)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -350,7 +323,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('minecraft:sapling', 5) * 5)
         .outputs(item('minecraft:apple') * 2)
         .EUt(30)
-        .duration(7200)
+        .duration(1440)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -362,7 +335,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('gregtech:rubber_leaves') * 12)
         .outputs(metaitem('rubber_drop') * 4)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 //FRUIT TREES
@@ -378,7 +351,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('gregtechfoodoption:gtfo_sapling_0') * 2)
         .outputs(metaitem('gregtechfoodoption:food.banana') * 4)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -393,7 +366,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('gregtechfoodoption:gtfo_sapling_0') * 2)
         .outputs(metaitem('gregtechfoodoption:food.banana') * 8)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -407,7 +380,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('gregtechfoodoption:gtfo_sapling_0', 2) * 2)
         .outputs(metaitem('gregtechfoodoption:food.orange') * 4)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -422,7 +395,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('gregtechfoodoption:gtfo_sapling_0', 2) * 2)
         .outputs(metaitem('gregtechfoodoption:food.orange') * 8)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -436,7 +409,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('gregtechfoodoption:gtfo_sapling_0', 4) * 2)
         .outputs(metaitem('gregtechfoodoption:food.mango') * 4)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -451,7 +424,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('gregtechfoodoption:gtfo_sapling_0', 4) * 2)
         .outputs(metaitem('gregtechfoodoption:food.mango') * 8)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -465,7 +438,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('gregtechfoodoption:gtfo_sapling_0', 6) * 2)
         .outputs(metaitem('gregtechfoodoption:food.apricot') * 4)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -480,7 +453,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('gregtechfoodoption:gtfo_sapling_0', 6) * 2)
         .outputs(metaitem('gregtechfoodoption:food.apricot') * 8)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -494,7 +467,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('gregtechfoodoption:gtfo_sapling_0', 8) * 2)
         .outputs(metaitem('gregtechfoodoption:food.lemon') * 5)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -509,7 +482,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('gregtechfoodoption:gtfo_sapling_0', 8) * 2)
         .outputs(metaitem('gregtechfoodoption:food.lemon') * 10)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -523,7 +496,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('gregtechfoodoption:gtfo_sapling_0', 10) * 2)
         .outputs(metaitem('gregtechfoodoption:food.lime') * 6)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -538,7 +511,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('gregtechfoodoption:gtfo_sapling_0', 10) * 2)
         .outputs(metaitem('gregtechfoodoption:food.lime') * 12)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -552,7 +525,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('gregtechfoodoption:gtfo_sapling_0', 12) * 2)
         .outputs(metaitem('gregtechfoodoption:crop.olive') * 20)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -567,7 +540,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('gregtechfoodoption:gtfo_sapling_0', 12) * 2)
         .outputs(metaitem('gregtechfoodoption:crop.olive') * 40)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -581,7 +554,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('gregtechfoodoption:gtfo_sapling_0', 14) * 2)
         .outputs(metaitem('gregtechfoodoption:crop.olive') * 20)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -596,7 +569,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('gregtechfoodoption:gtfo_sapling_0', 14) * 2)
         .outputs(metaitem('gregtechfoodoption:crop.olive') * 40)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -610,7 +583,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('gregtechfoodoption:gtfo_sapling_1') * 2)
         .outputs(metaitem('gregtechfoodoption:component.nutmeg') * 10)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -625,7 +598,7 @@ GREENHOUSE.recipeBuilder()
         .outputs(item('gregtechfoodoption:gtfo_sapling_1') * 2)
         .outputs(metaitem('gregtechfoodoption:component.nutmeg') * 20)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 def generateGreenhouseTreeRecipes(String gasType, sapling, leaves, wood) {
@@ -639,7 +612,7 @@ def generateGreenhouseTreeRecipes(String gasType, sapling, leaves, wood) {
             .outputs(leaves * 12)
             .outputs(sapling * 2)
             .EUt(30)
-            .duration(2400)
+            .duration(360)
             .buildAndRegister()
 }
 
@@ -651,7 +624,7 @@ GREENHOUSE.recipeBuilder()
         .inputs(metaitem('fertilizer') * 4)
         .outputs(item('biomesoplenty:bamboo') * 12)
         .EUt(30)
-        .duration(2400)
+        .duration(360)
         .buildAndRegister()
 
 GREENHOUSE.recipeBuilder()
@@ -660,7 +633,7 @@ GREENHOUSE.recipeBuilder()
         .fluidInputs(fluid('greenhouse_gases') * 20000)
         .fluidInputs(fluid('water') * 20000)
         .inputs(metaitem('fertilizer') * 16)
-        .outputs(item('minecraft:log') * 120)
+        .outputs(item('biomesoplenty:log_0', 4) * 150)
         .outputs(item('minecraft:leaves') * 64)
         .EUt(30)
         .duration(6000)

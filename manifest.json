@@ -11,7 +11,7 @@
   "manifestType": "minecraftModpack",
   "manifestVersion": 1,
   "name": "Supersymmetry",
-  "version": "0.1.10",
+  "version": "0.1.12.2",
   "author": "SymmetricDevs",
   "externalDeps": [],
   "files": [
@@ -91,8 +91,8 @@
       "required": true
     },
     {
-      "projectID": 223094,
-      "fileID": 2482481,
+      "projectID": 632327,
+      "fileID": 5102527,
       "required": true
     },
     {
@@ -122,7 +122,7 @@
     },
     {
       "projectID": 419286,
-      "fileID": 4459218,
+      "fileID": 4835295,
       "required": true
     },
     {
@@ -132,7 +132,7 @@
     },
     {
       "projectID": 870211,
-      "fileID": 4654356,
+      "fileID": 4723473,
       "required": true
     },
     {
@@ -157,7 +157,7 @@
     },
     {
       "projectID": 557242,
-      "fileID": 4799055,
+      "fileID": 5121638,
       "required": true
     },
     {
@@ -291,11 +291,6 @@
       "required": true
     },
     {
-      "projectID": 288885,
-      "fileID": 4030366,
-      "required": true
-    },
-    {
       "projectID": 239197,
       "fileID": 3888587,
       "required": true
@@ -312,7 +307,7 @@
     },
     {
       "projectID": 477021,
-      "fileID": 4716101,
+      "fileID": 5155451,
       "required": true
     },
     {
@@ -363,6 +358,11 @@
     {
       "projectID": 257818,
       "fileID": 4399700,
+      "required": true
+    },
+    {
+      "projectID": 411816,
+      "fileID": 3899272,
       "required": true
     },
     {
@@ -427,7 +427,7 @@
     },
     {
       "projectID": 846224,
-      "fileID": 4961082,
+      "fileID": 5106351,
       "required": true
     },
     {
@@ -493,11 +493,6 @@
     {
       "projectID": 291874,
       "fileID": 2799213,
-      "required": true
-    },
-    {
-      "projectID": 433235,
-      "fileID": 3873356,
       "required": true
     },
     {
@@ -602,7 +597,7 @@
     },
     {
       "projectID": 564858,
-      "fileID": 4701685,
+      "fileID": 5121714,
       "required": true
     },
     {
@@ -676,6 +671,7 @@
       "required": true
     },
     {
+      "clientOnly": true,
       "projectID": 326330,
       "fileID": 3541276,
       "required": true
@@ -816,11 +812,6 @@
       "required": true
     },
     {
-      "projectID": 274275,
-      "fileID": 3421499,
-      "required": true
-    },
-    {
       "projectID": 325357,
       "fileID": 2754959,
       "required": true
@@ -842,7 +833,7 @@
     },
     {
       "projectID": 687577,
-      "fileID": 4749823,
+      "fileID": 5120928,
       "required": true
     },
     {
@@ -893,7 +884,7 @@
     },
     {
       "projectID": 895539,
-      "fileID": 4808612,
+      "fileID": 4904325,
       "required": true
     },
     {
@@ -914,6 +905,26 @@
     {
       "projectID": 616190,
       "fileID": 4630499,
+      "required": true
+    },
+    {
+      "projectID": 628618,
+      "fileID": 3813089,
+      "required": true
+    },
+    {
+      "projectID": 964516,
+      "fileID": 5049991,
+      "required": true
+    },
+    {
+      "projectID": 964594,
+      "fileID": 5047422,
+      "required": true
+    },
+    {
+      "projectID": 624243,
+      "fileID": 5153413,
       "required": true
     }
   ],

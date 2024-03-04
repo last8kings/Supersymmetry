@@ -1,4 +1,4 @@
-import static globals.Globals.*
+import globals.Globals
 
 crafting.addShaped("susy:basic_structural_casing", item('susy:susy_multiblock_casing', 3) * 6, [
     [ore('screwWroughtIron'), ore('plateWroughtIron'), ore('craftingToolHardHammer')],
@@ -51,8 +51,55 @@ mods.gregtech.assembler.recipeBuilder()
 mods.gregtech.assembler.recipeBuilder()
     .circuitMeta(11)
     .inputs(ore('plateStainlessSteel') * 4)
-    .inputs(ore('frameStainlessSteel'))
+    .inputs(ore('frameGtStainlessSteel'))
     .outputs(item('susy:susy_multiblock_casing', 1))
     .duration(240)
     .EUt(Globals.voltAmps[3])
     .buildAndRegister()
+    
+crafting.addShaped("susy:air_vent_w", item('susy:meta_item', 4), [
+	[ore('craftingToolHardHammer'),ore('stickWroughtIron'),ore('craftingToolScrewdriver')],
+	[ore('plateWroughtIron'),ore('stickWroughtIron'),ore('plateWroughtIron')],
+	[ore('screwWroughtIron'),ore('stickWroughtIron'),ore('screwWroughtIron')]
+])
+
+crafting.addShaped("susy:air_vent_n", item('susy:meta_item', 4), [
+	[ore('craftingToolHardHammer'),ore('stickIron'),ore('craftingToolScrewdriver')],
+	[ore('plateIron'),ore('stickIron'),ore('plateIron')],
+	[ore('screwIron'),ore('stickIron'),ore('screwIron')]
+])
+
+mods.gregtech.assembler.recipeBuilder()
+    .inputs(ore('plateWroughtIron') * 2)
+    .inputs(ore('stickWroughtIron') * 2)
+    .inputs(ore('screwWroughtIron') * 2)
+    .circuitMeta(13)
+    .outputs(item('susy:meta_item', 4))
+    .duration(200)
+    .EUt(Globals.voltAmps[1])
+    .buildAndRegister()
+
+mods.gregtech.assembler.recipeBuilder()
+    .inputs(ore('plateIron') * 2)
+    .inputs(ore('stickIron') * 2)
+    .inputs(ore('screwIron') * 2)
+    .circuitMeta(13)
+    .outputs(item('susy:meta_item', 4))
+    .duration(200)
+    .EUt(Globals.voltAmps[1])
+    .buildAndRegister()
+
+mods.gregtech.assembler.recipeBuilder()
+    .circuitMeta(11)
+    .inputs(ore('plateStainlessSteel') * 4)
+    .inputs(ore('frameGtStainlessSteel'))
+    .outputs(item('susy:susy_multiblock_casing', 1))
+    .duration(240)
+    .EUt(Globals.voltAmps[3])
+    .buildAndRegister()
+
+//Deposit stuff
+// Crushed Sulfur Ore * 1
+mods.gregtech.forge_hammer.removeByInput(16, [item('gregtech:ore_sulfur_0')], null)
+// Crushed Sulfur Ore * 2
+mods.gregtech.macerator.removeByInput(2, [item('gregtech:ore_sulfur_0')], null)

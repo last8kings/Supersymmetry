@@ -1,4 +1,4 @@
-import static globals.Globals.*
+import globals.Globals
 import static globals.SinteringGlobals.*
 
 import static gregtech.api.unification.material.Materials.*;
@@ -24,13 +24,13 @@ REACTION_FURNACE = recipemap('reaction_furnace')
 FBR = recipemap('fixed_bed_reactor')
 SIFTER = recipemap('sifter')
 ALLOY_SMELTER = recipemap('alloy_smelter')
-POLYMERIZATION_TANK = recipemap('polymerization_tank')
 BCR = recipemap('bubble_column_reactor')
 TBR = recipemap('trickle_bed_reactor')
 LCR = recipemap('large_chemical_reactor')
 AUTOCLAVE = recipemap('autoclave')
 HEAT_EXCHANGER = recipemap('heat_exchanger')
 UV_LIGHT_BOX = recipemap('uv_light_box')
+FLUID_HEATER = recipemap('fluid_heater')
 
 class Oil {
     String name
@@ -329,12 +329,12 @@ CENTRIFUGE.recipeBuilder()
     // Solvent Dewaxing
     VACUUM_DT.recipeBuilder()
         .fluidInputs(fluid('sulfuric_oil_residue') * 1000)
+        .outputs(metaitem('bituminous_residue'))
+        .fluidOutputs(fluid('crude_lubricating_oil') * 850)
         .fluidOutputs(fractions.fuel_oil.getSulfuric(200))
         .fluidOutputs(fractions.diesel.getSulfuric(200))
         .fluidOutputs(fractions.kerosene.getSulfuric(150))
         .fluidOutputs(fractions.naphtha.getSulfuric(100))
-        .fluidOutputs(fluid('crude_lubricating_oil') * 850)
-        .outputs(metaitem('bituminous_residue'))
         .duration(600)
         .EUt(30)
         .buildAndRegister()
@@ -523,7 +523,7 @@ DT.recipeBuilder()
 .fluidOutputs(fluid('ethylene') * 800)
 .fluidOutputs(fluid('methane') * 50)
 .fluidOutputs(fluid('hydrogen') * 50)
-.duration(600)
+.duration(150)
 .EUt(Globals.voltAmps[1] * 2)
 .buildAndRegister()
 
@@ -534,7 +534,7 @@ DT.recipeBuilder()
 .fluidOutputs(fluid('ethylene') * 500)
 .fluidOutputs(fluid('methane') * 150)
 .fluidOutputs(fluid('hydrogen') * 150)
-.duration(600)
+.duration(150)
 .EUt(Globals.voltAmps[1] * 2)
 .buildAndRegister()
 
@@ -545,7 +545,7 @@ DT.recipeBuilder()
 .fluidOutputs(fluid('ethylene') * 350)
 .fluidOutputs(fluid('methane') * 150)
 .fluidOutputs(fluid('hydrogen') * 100)
-.duration(600)
+.duration(150)
 .EUt(Globals.voltAmps[1] * 2)
 .buildAndRegister()
 
@@ -726,11 +726,11 @@ fractions.each { _, fraction -> {
 
 EBF.recipeBuilder()
 .fluidInputs(fluid('oxygen') * 1000)
-.inputs(metaitem('spent_cracking_catalyst'))
+.inputs(metaitem('spent_cracking_catalyst') * 4)
 .fluidOutputs(fluid('flue_gas') * 1000)
-.outputs(metaitem('cracking_catalyst'))
+.outputs(metaitem('cracking_catalyst') * 4)
 .blastFurnaceTemp(1200)
-.duration(200)
+.duration(100)
 .EUt(Globals.voltAmps[1] * 2)
 .buildAndRegister()
 
@@ -824,7 +824,7 @@ DT.recipeBuilder()
 .fluidOutputs(fluid('gasoline') * 150)
 .fluidOutputs(fluid('toluene') * 40)
 .fluidOutputs(fluid('benzene') * 150)
-.fluidOutputs(fluid('isoprene') * 150)
+.fluidOutputs(fluid('c_five_fraction') * 150)
 .fluidOutputs(fluid('butene') * 80)
 .fluidOutputs(fluid('butadiene') * 150)
 .fluidOutputs(fluid('propane') * 15)
@@ -842,7 +842,7 @@ DT.recipeBuilder()
 .fluidOutputs(fluid('gasoline') * 50)
 .fluidOutputs(fluid('toluene') * 20)
 .fluidOutputs(fluid('benzene') * 100)
-.fluidOutputs(fluid('isoprene') * 350)
+.fluidOutputs(fluid('c_five_fraction') * 350)
 .fluidOutputs(fluid('butene') * 50)
 .fluidOutputs(fluid('butadiene') * 50)
 .fluidOutputs(fluid('propane') * 15)
@@ -913,9 +913,7 @@ DT.recipeBuilder()
 .buildAndRegister()
 
 fractions.each { _, fraction -> {
-
         if (fraction.isUpgradable) {
-
             CRACKER.recipeBuilder()
             .fluidInputs(fraction.get(1000))
             .inputs(metaitem('cracking_catalyst'))
@@ -931,11 +929,8 @@ fractions.each { _, fraction -> {
             .duration(160)
             .EUt(Globals.voltAmps[1])
             .buildAndRegister()
-
         }
-
     }
-
 }
 
 CRACKER.recipeBuilder()
@@ -997,7 +992,7 @@ DT.recipeBuilder()
 .fluidInputs(fluid('xylene') * 1000)
 .fluidOutputs(fluid('ortho_xylene') * 200)
 .fluidOutputs(fluid('meta_para_xylene_mixture') * 800)
-.duration(500)
+.duration(100)
 .EUt(Globals.voltAmps[1] * 2)
 .buildAndRegister()
 
@@ -1005,8 +1000,15 @@ CRYSTALLIZER.recipeBuilder()
 .fluidInputs(fluid('meta_para_xylene_mixture') * 4000)
 .outputs(metaitem('dustParaXylene'))
 .fluidOutputs(fluid('meta_xylene') * 3000)
-.duration(500)
+.duration(100)
 .EUt(Globals.voltAmps[1])
+.buildAndRegister()
+
+EXTRACTOR.recipeBuilder()
+.inputs(ore('dustParaXylene'))
+.fluidOutputs(fluid('para_xylene') * 1000)
+.duration(5)
+.EUt(30)
 .buildAndRegister()
 
 BR.recipeBuilder()
@@ -1057,21 +1059,21 @@ BR.recipeBuilder()
 .EUt(120)
 .buildAndRegister();
 
-CSTR.recipeBuilder()
-.fluidInputs(fluid('n_bromopropane') * 50)
-.fluidInputs(fluid('tripropylamine') * 50)
-.fluidOutputs(fluid('tetrapropylammonium_bromide') * 50)
+BR.recipeBuilder()
+.fluidInputs(fluid('n_bromopropane') * 1000)
+.fluidInputs(fluid('tripropylamine') * 1000)
+.outputs(metaitem('dustTetrapropylammoniumBromide'))
 .duration(5)
 .EUt(120)
 .buildAndRegister();
 
-BR.recipeBuilder()
+LCR.recipeBuilder()
 .inputs(ore('dustSiliconDioxide') * 6)
 .inputs(ore('dustAluminiumSulfate') * 51)
 .inputs(ore('dustSodiumHydroxide'))
+.inputs(ore('dustTinyTetrapropylammoniumBromide'))
 .fluidInputs(fluid('ethanol') * 100)
 .fluidInputs(fluid('demineralized_water') * 1800)
-.fluidInputs(fluid('tetrapropylammonium_bromide') * 100)
 .outputs(metaitem('dustZsmFive'))
 .duration(500)
 .EUt(480)
@@ -1084,3 +1086,30 @@ REFORMER.recipeBuilder()
 .duration(60)
 .EUt(Globals.voltAmps[1] * 2)
 .buildAndRegister()
+
+// Steam-cracked naphtha C5-fraction separation
+
+    // Dimerization of CPD
+    
+    FLUID_HEATER.recipeBuilder()
+        .fluidInputs(fluid('c_five_fraction') * 1000)
+        .fluidOutputs(fluid('dimerized_c_five_fraction') * 875)
+        .duration(60)
+        .EUt(Globals.voltAmps[1])
+        .buildAndRegister()
+
+    DT.recipeBuilder()
+        .fluidInputs(fluid('dimerized_c_five_fraction') * 875)
+        .fluidOutputs(fluid('dicyclopentadiene') * 125)
+        .fluidOutputs(fluid('pentane') * 375)
+        .fluidOutputs(fluid('isoprene') * 375)
+        .duration(60)
+        .EUt(Globals.voltAmps[1])
+        .buildAndRegister()
+
+    FLUID_HEATER.recipeBuilder()
+        .fluidInputs(fluid('dicyclopentadiene') * 1000)
+        .fluidOutputs(fluid('cyclopentadiene') * 2000)
+        .duration(60)
+        .EUt(Globals.voltAmps[1])
+        .buildAndRegister()

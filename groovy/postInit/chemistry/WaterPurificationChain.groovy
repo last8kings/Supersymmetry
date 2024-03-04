@@ -1,4 +1,4 @@
-import static globals.Globals.*
+import globals.Globals
 
 import gregtech.api.recipes.ModHandler;
 import gregtech.api.unification.material.Materials;
@@ -125,7 +125,7 @@ BR.recipeBuilder()
         .outputs(metaitem('dustBoricAcid') * 7)
         .fluidOutputs(fluid('boron_free_brine') * 1000)
         .duration(120)
-        .EUt(480)
+        .EUt(120)
         .buildAndRegister()
 
 BR.recipeBuilder()
@@ -134,24 +134,24 @@ BR.recipeBuilder()
         .outputs(metaitem('gregtechfoodoption:lithium_carbonate_dust') * 6)
         .fluidOutputs(fluid('lithium_free_brine') * 1000)
         .duration(120)
-        .EUt(480)
+        .EUt(120)
         .buildAndRegister()
 
 BCR.recipeBuilder()
         .fluidInputs(fluid('lithium_free_brine') * 50)
-        .fluidInputs(fluid('chlorine') * 10)
+        .fluidInputs(fluid('chlorine') * 25)
         .fluidOutputs(fluid('chlorinated_brine') * 50)
         .duration(1)
-        .EUt(480)
+        .EUt(120)
         .buildAndRegister()
 
 VACUUM_CHAMBER.recipeBuilder()
         .fluidInputs(fluid('steam') * 250)
         .fluidInputs(fluid('chlorinated_brine') * 1000)
-        .fluidOutputs(fluid('impure_bromine') * 100)
+        .fluidOutputs(fluid('impure_bromine') * 500)
         .fluidOutputs(fluid('wastewater_sludge') * 500)
         .duration(120)
-        .EUt(480)
+        .EUt(120)
         .buildAndRegister()
 
 CENTRIFUGE.recipeBuilder()
@@ -159,7 +159,7 @@ CENTRIFUGE.recipeBuilder()
         .fluidOutputs(fluid('bromine') * 1000)
         .chancedOutput(metaitem('dustIodine'), 1000, 1000)
         .duration(120)
-        .EUt(480)
+        .EUt(120)
         .buildAndRegister()
 
 MSFD.recipeBuilder()
